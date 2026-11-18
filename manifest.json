@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Облтех — перенос задач",
+  "version": "0.3.2",
+  "minimum_chrome_version": "116",
+  "description": "Перенос описания, изображений и MHTML через вашу браузерную сессию.",
+  "permissions": ["storage", "unlimitedStorage", "tabs", "scripting", "pageCapture", "downloads", "offscreen"],
+  "host_permissions": ["https://jira.mos.social/*", "https://rm.oblteh.ru/*", "http://jira.oblteh:8080/*"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "action": {"default_title": "Облтех — перенос задач", "default_popup": "popup.html"},
+  "background": {"service_worker": "background.js"}
+}

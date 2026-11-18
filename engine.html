@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><title>Jira → Redmine</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="brand.css">
+<main>
+<header class="brand-header"><img class="brand-logo" src="assets/obltech-logo.svg" alt="Облачные технологии"><span class="eyebrow">ПЕРЕНОС ЗАДАЧ</span></header>
+<h1>Перенос из общей Jira</h1>
+<p>Входите в системы в этом же браузере. Пароли утилита не запрашивает.</p>
+<label>Ссылка Jira<input id="source" type="url" placeholder="https://jira.mos.social/browse/KISEMIAS2019-21925"></label>
+<label>Выполнить до<input id="date" type="date"></label>
+<label>Имя и фамилия постановщика<input id="requester" value="" placeholder="Например, Денис Мезенцев" autocomplete="name"></label>
+<p class="note">Укажите имя пользователя системы назначения. Можно писать «Имя Фамилия» или «Фамилия Имя».</p>
+<label>Куда перенести<select id="destination"><option value="redmine">Redmine</option><option value="jira">Локальная Jira · KIS</option></select></label>
+<details><summary>Настройки локальной Jira</summary>
+<p>http://jira.oblteh:8080 · проект KIS. Вход через вашу учётную запись в этом браузере.</p>
+<label>Тип задачи<input id="localType" list="localTypes" value="Доработка"></label><datalist id="localTypes"></datalist>
+<label>Приоритет (пусто — настройка проекта)<input id="localPriority" value=""></label>
+<label>Поле срока (название или ID)<input id="localDeadline" value="duedate"></label>
+<p>По умолчанию используется стандартный срок Jira. Если нужен другой срок, укажите его название из списка полей.</p>
+<button id="loadLocal">Загрузить типы и поля из локальной Jira</button>
+</details>
+<details><summary>Настройки Redmine</summary>
+<label>Адрес<input id="redmine" value="https://rm.oblteh.ru/redmine"></label>
+<label>Проект Redmine<input id="project" list="projects" value="КИС ЕМИАС"></label>
+<datalist id="projects"></datalist><button id="loadProjects">Загрузить названия проектов из Redmine</button>
+<label>Трекер<input id="tracker" value="Доработка"></label>
+<label>Приоритет<input id="priority" value="Высокий"></label>
+<label>Название поля срока<input id="deadlineLabel" value="Выполнить до"></label>
+</details>
+<button id="read">1. Прочитать задачу</button>
+<section id="preview" hidden>
+<h2 id="subject"></h2>
+<p>Страницы для MHTML (без перехода по ссылкам внутри них):</p><div id="links"></div>
+<label>Добавить страницы, по одной ссылке в строке<textarea id="extra" rows="3"></textarea></label>
+<p id="warnings"></p>
+<details><summary>Описание для выбранной системы</summary><pre id="description"></pre></details>
+<p>Перед переносом исходная Jira перечитывается. Совпадение определяется по последним пяти цифрам в конце названия, например [21783]. Найденная задача обновляется вместе с названием; различия в тексте названия не приводят к созданию новой задачи.</p>
+<button id="run">2. Перенести / обновить</button>
+</section>
+<section id="uncertain" hidden><h2>Нужно проверить систему назначения</h2>
+<p>Отправка уже началась, но подтверждение создания не получено. Проверьте список задач выбранной системы. Повторная отправка может создать дубликат. Для локальной Jira найденная задача будет использована для продолжения загрузки файлов.</p>
+<label>Ссылка на уже созданную задачу<input id="existing" type="url"></label><button id="markDone">Задача создана — сохранить ссылку / продолжить</button>
+<label><input id="checked" type="checkbox"> Я проверил: задача не создана</label><button id="unlock">Разрешить повторную отправку</button></section>
+<p id="status" role="status"></p><a id="result" hidden target="_blank" rel="noreferrer">Открыть созданную задачу</a>
+<div><button id="reset" class="secondary">Сбросить предыдущий перенос</button></div>
+<p class="note">После ошибки снимает блокировку и позволяет начать другую задачу. Во время выполняющегося переноса кнопка недоступна. Уже созданные задачи и загруженные файлы сохраняются.</p>
+<pre id="log" aria-live="polite"></pre>
+<p class="note">Вкладку утилиты можно закрыть: перенос продолжится в фоне. Вкладки сайтов нужны для входа и сохранения MHTML. Исходная Jira не изменяется.</p>
+</main><script src="core.js"></script><script src="rpc.js"></script><script src="updates.js"></script><script src="app.js"></script></html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><title>Jira → Redmine</title>
+<link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="brand.css">
+<body>
+<header><div><img class="brand-logo" src="assets/obltech-logo.svg" alt="Облачные технологии"><h1>Перенос задач</h1></div><button id="open" class="quiet" title="Полная форма и настройки">Открыть вкладку ↗</button></header>
+<main>
+<label>Ссылка на задачу Jira<input id="source" type="url" placeholder="https://jira.mos.social/browse/…"></label>
+<label>Выполнить до<input id="date" type="date"></label>
+<label>Имя и фамилия постановщика<input id="requester" placeholder="Например, Денис Мезенцев" autocomplete="name"></label>
+<label>Куда перенести<select id="destination"><option value="redmine">Redmine</option><option value="jira">Локальная Jira · KIS</option></select></label>
+<button id="read">1. Прочитать задачу</button>
+<section id="preview" hidden>
+<h2 id="subject"></h2>
+<details><summary>Страницы для MHTML</summary><div id="links"></div>
+<label>Дополнительные страницы<textarea id="extra" rows="2" placeholder="По одной ссылке в строке"></textarea></label></details>
+<p class="hint">Совпал номер в конце, например [21783], — обновим существующую задачу, даже если название изменилось. Новая создаётся только при отсутствии этого номера.</p>
+<button id="run">2. Перенести / обновить</button>
+</section>
+<section class="status"><span id="dot"></span><p id="status" role="status">Подключаюсь…</p></section>
+<button id="reset" class="secondary">Сбросить предыдущий перенос</button>
+<p class="hint">После ошибки снимает блокировку и позволяет начать другую задачу. Доступно, когда перенос остановлен.</p>
+<p id="uncertain" hidden>Нужно проверить предыдущую отправку в системе назначения. Нажмите «Открыть вкладку ↗» и укажите результат проверки.</p>
+<a id="result" hidden target="_blank" rel="noreferrer">Открыть созданную задачу ↗</a>
+<details><summary>Журнал</summary><pre id="log"></pre></details>
+<p class="hint">Окно можно закрыть — перенос продолжится без вкладки утилиты. Вкладки сайтов используются для входа и сохранения страниц.</p>
+</main><script src="core.js"></script><script src="popup.js"></script></body></html>

@@ -1,0 +1,22 @@
+/* Palette and logo source: oblteh.ru, retrieved 2026-11-05. */
+:root{--brand-accent:#3e8cf3;--brand-primary:#004dab;--brand-ink:#37383a;--brand-soft:#bdd0e8;--brand-bg:#e5ecf4;color:var(--brand-ink);background:var(--brand-bg)}
+.brand-logo{display:block;width:220px;height:auto;object-fit:contain}
+.brand-header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--brand-soft);padding-bottom:20px;margin-bottom:24px}
+.eyebrow{color:var(--brand-primary)}
+body>header{border-bottom:3px solid var(--brand-accent);background:#fff;gap:12px}
+body>header .brand-logo{width:152px;height:auto;margin-bottom:7px}
+body>header h1{font-size:17px;color:var(--brand-ink)}
+button{background:var(--brand-primary);color:#fff}
+button:hover:not(:disabled){background:#003e8b}
+button.secondary{background:#fff;color:var(--brand-primary);border:1px solid var(--brand-soft)}
+button.secondary:hover:not(:disabled){background:var(--brand-bg)}
+button.quiet{background:var(--brand-bg);color:var(--brand-primary);max-width:132px;line-height:1.35}
+button.quiet:hover:not(:disabled){background:var(--brand-soft)}
+input,select,textarea{border-color:var(--brand-soft);color:var(--brand-ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--brand-accent);outline-offset:2px}
+input[type=checkbox]{accent-color:var(--brand-primary)}
+a,summary{color:var(--brand-primary)}
+.hint,.note{color:#596679}
+pre{background:#eef3fa;color:var(--brand-ink)}
+#dot.running{background:var(--brand-accent)}
+@media(max-width:500px){.brand-header{align-items:flex-start;flex-direction:column;gap:12px}}
