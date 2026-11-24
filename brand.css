@@ -19,4 +19,6 @@ a,summary{color:var(--brand-primary)}
 .hint,.note{color:#596679}
 pre{background:#eef3fa;color:var(--brand-ink)}
 #dot.running{background:var(--brand-accent)}
+.archive-warning{background:#fff8e8;border:1px solid #e9cb8c;border-radius:8px;padding:12px;margin:12px 0;color:#765012;overflow-wrap:anywhere}
+.archive-warning ul{padding-left:18px;font-size:12px}
 @media(max-width:500px){.brand-header{align-items:flex-start;flex-direction:column;gap:12px}}

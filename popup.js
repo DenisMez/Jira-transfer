@@ -24,6 +24,8 @@ function paint(s) {
   }
   $('status').textContent=s.status||(s.busy?'Выполняется перенос…':'Готово к работе');
   $('log').textContent=s.log||'';
+  const skipped=s.skippedPages||[];$('skipped').hidden=!skipped.length;$('skippedLinks').replaceChildren();
+  for(const page of skipped){const item=document.createElement('li'),link=document.createElement('a');link.textContent=page.url;link.href=page.url;link.target='_blank';link.rel='noreferrer';item.append(link,document.createTextNode(' — '+page.reason));$('skippedLinks').append(item);}
   $('dot').className=s.busy?'running':'';
   $('uncertain').hidden=s.stage!=='sending'||s.busy;
   const sameDestination=(s.jobDestination||'redmine')===$('destination').value;

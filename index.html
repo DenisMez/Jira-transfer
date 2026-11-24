@@ -43,6 +43,7 @@
 <label>Ссылка на уже созданную задачу<input id="existing" type="url"></label><button id="markDone">Задача создана — сохранить ссылку / продолжить</button>
 <label><input id="checked" type="checkbox"> Я проверил: задача не создана</label><button id="unlock">Разрешить повторную отправку</button></section>
 <p id="status" role="status"></p><a id="result" hidden target="_blank" rel="noreferrer">Открыть созданную задачу</a>
+<section id="skipped" class="archive-warning" hidden><strong>Не сохранены страницы</strong><ul id="skippedLinks"></ul><p>Перенос продолжается без этих MHTML-архивов. Остальные файлы прикладываются к задаче.</p></section>
 <div><button id="reset" class="secondary">Сбросить предыдущий перенос</button></div>
 <p class="note">После ошибки снимает блокировку и позволяет начать другую задачу. Во время выполняющегося переноса кнопка недоступна. Уже созданные задачи и загруженные файлы сохраняются.</p>
 <pre id="log" aria-live="polite"></pre>

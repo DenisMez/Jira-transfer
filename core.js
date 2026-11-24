@@ -1,5 +1,13 @@
 /* Pure helpers are shared with the local tests. */
 globalThis.TransferCore = {
+  unavailableArchiveReason(error) {
+    const text=String(error?.message||error||'');
+    if(/Frame with ID \d+ is showing error page|chrome-error:\/\//i.test(text))return 'Сайт не открылся: Chrome показал страницу ошибки.';
+    if(/net::ERR_[A-Z_]+|ERR_(?:NAME_NOT_RESOLVED|CONNECTION_[A-Z_]+|TIMED_OUT|CERT_[A-Z_]+)/i.test(text))return 'Сайт недоступен из-за ошибки подключения или сертификата.';
+    if(/Страница долго загружается/i.test(text))return 'Сайт не загрузился за отведённое время.';
+    if(/No tab with id|tab (?:was |is )?closed|No frame with id|frame (?:was |is )?removed/i.test(text))return 'Вкладка страницы закрыта или недоступна.';
+    return null;
+  },
   issueIdentity(subject) {
     const text=String(subject||'').normalize('NFC').replace(/\s+/g,' ').trim();
     const match=text.match(/^(.*?)(?:\s*\[(\d{5})\]|\s+(\d{5}))$/);

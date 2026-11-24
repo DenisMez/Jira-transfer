@@ -1,4 +1,7 @@
 // Refresh and update orchestration. Loaded in the invisible engine before app.js.
+function reportSkippedPages() {
+  if(job?.skippedPages?.length)log($('status').textContent+' Предупреждение: не сохранены MHTML-архивы ('+job.skippedPages.length+'): '+job.skippedPages.map(p=>p.url).join('; ')+'. Остальные файлы перенесены.');
+}
 async function findExisting(s,hint) {
   const number=C.issueIdentity(issue.subject)?.number;if(!number)throw Error('Не найден номер Jira в конце названия.');
   let candidates=[];
@@ -100,8 +103,8 @@ async function transfer() {
   if(s.destination==='jira'){
     prepared.payload.fields.description=issue.jiraDescription;
     job.localPrepared=prepared;await save();
-    await transferLocal(s,files,prepared);return;
+    await transferLocal(s,files,prepared);reportSkippedPages();return;
   }
-  if(target){await updateRedmine(s,files,target);return;}
-  await createRedmine(s,files);
+  if(target){await updateRedmine(s,files,target);reportSkippedPages();return;}
+  await createRedmine(s,files);reportSkippedPages();
 }

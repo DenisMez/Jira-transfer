@@ -210,11 +210,24 @@ async function archive(url,name) {
 }
 async function filesFor(s,urls) {
   const files=[];
+  job.skippedPages=[];
+  await save();
   for(const [i,url] of urls.entries()) {
     const name=`page-${String(i+1).padStart(2,'0')}-${C.safeName(new URL(url).pathname.split('/').filter(Boolean).pop()||'index')}.mhtml`;
     const key=job.id+':page:'+url;
     let file=await fileStore(key);
-    if(!file){log('Сохраняю страницу: '+url);file=await archive(url,name);await fileStore(key,file);}
+    if(!file){
+      log('Сохраняю страницу: '+url);
+      try{file=await archive(url,name);}catch(error){
+        const reason=C.unavailableArchiveReason(error);
+        if(!reason)throw error;
+        job.skippedPages.push({url,reason,detail:String(error.message||error),at:new Date().toISOString()});
+        await save();
+        log('Пропускаю MHTML недоступной страницы: '+url+'. '+reason+' Продолжаю перенос.');
+        continue;
+      }
+      await fileStore(key,file);
+    }
     // Download completion, rather than capture, is checkpointed separately.
     if(!job.downloads.includes(key)){await download(file.blob,file.name);job.downloads.push(key);await save();}
     files.push(file);
@@ -402,7 +415,7 @@ function runnerSnapshot() {
     selected:[...$('links').querySelectorAll('input:checked')].map(e=>e.value),extra:$('extra').value,
     fullSettings:Object.fromEntries(configIds.map(id=>[id,$(id).value])),description:issue?($('destination').value==='jira'?issue.jiraDescription:issue.description):'',warnings:$('warnings').textContent,
     projects:[...$('projects').children].map(e=>e.value),localTypes:[...$('localTypes').children].map(e=>e.value),
-    status:$('status').textContent,log:$('log').textContent,stage:job?.stage,jobDestination:C.destinationOf(job),result:job?.source===issue?.url?job?.result:null};
+    skippedPages:job?.skippedPages||[],status:$('status').textContent,log:$('log').textContent,stage:job?.stage,jobDestination:C.destinationOf(job),result:job?.source===issue?.url?job?.result:null};
 }
 if(API.runtime?.onMessage)API.runtime.onMessage.addListener((message,sender,respond)=>{
   if(message?.target!=='runner'||sender.id!==API.runtime.id)return;

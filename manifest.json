@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Облтех — перенос задач",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "icons": {
     "16": "assets/icons/icon-16.png",
     "32": "assets/icons/icon-32.png",

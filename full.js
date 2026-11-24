@@ -8,6 +8,8 @@ function paint(s){
   snapshot=s;
   if(!initialized){for(const id of fields)if(s.settings?.[id])$(id).value=s.settings[id];$('extra').value=s.extra||'';initialized=true;}
   $('status').textContent=s.status||'Готово к работе';$('log').textContent=s.log||'';
+  const skipped=s.skippedPages||[];$('skipped').hidden=!skipped.length;$('skippedLinks').replaceChildren();
+  for(const page of skipped){const item=document.createElement('li'),link=document.createElement('a');link.textContent=page.url;link.href=page.url;link.target='_blank';link.rel='noreferrer';item.append(link,document.createTextNode(' — '+page.reason));$('skippedLinks').append(item);}
   $('preview').hidden=!s.issue;
   if(s.issue&&s.issue.revision!==revision){
     revision=s.issue.revision;$('subject').textContent=s.issue.subject;$('links').replaceChildren();
